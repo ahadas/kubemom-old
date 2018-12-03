@@ -12,7 +12,7 @@ config.load_kube_config()
 #    print("%s\t%s\t%s" % (i.status.pod_ip, i.metadata.namespace, i.metadata.name))
 
 print ('connecting...')
-metrics = requests.get("http://127.0.0.1:9101/metrics").content
+metrics = requests.get("http://127.0.0.1:9101/metrics").text
 
 print ('connected')
 for family in text_string_to_metric_families(metrics):
