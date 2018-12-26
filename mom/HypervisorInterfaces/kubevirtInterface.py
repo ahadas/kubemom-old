@@ -14,5 +14,5 @@ class kubevirtInterface(HypervisorInterface):
         for i in ret.items:
             print("%s\t%s\t%s" % (i.status.pod_ip, i.metadata.namespace, i.metadata.name))
 
-    def instance(config):
-        return kubevirtInterface(config)
+def instance(config):
+    return kubevirtInterface(config)
