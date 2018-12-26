@@ -2,7 +2,7 @@ import logging
 from kubernetes import client, config
 from mom.HypervisorInterfaces.HypervisorInterface import *
 
-class libvirtInterface(HypervisorInterface):
+class kubevirtInterface(HypervisorInterface):
 
     def __init__(self, configs):
         config.load_kube_config()
@@ -14,3 +14,5 @@ class libvirtInterface(HypervisorInterface):
         for i in ret.items:
             print("%s\t%s\t%s" % (i.status.pod_ip, i.metadata.namespace, i.metadata.name))
 
+    def instance(config):
+        return kubevirtInterface(config)
