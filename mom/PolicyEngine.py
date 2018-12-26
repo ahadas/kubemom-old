@@ -37,7 +37,7 @@ class PolicyEngine(threading.Thread):
             'guest_manager': guest_manager,
         }
 
-        self.policy = Policy()
+        self.policy = Policy.Policy()
         self.load_policy()
         self.start()
 

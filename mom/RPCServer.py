@@ -19,10 +19,10 @@ import os.path
 from xmlrpc.server import SimpleXMLRPCServer
 from xmlrpc.server import SimpleXMLRPCRequestHandler
 from mom.unixrpc import UnixXmlRpcServer
-from xmlrpc.server import Marshaller
-from types import IntType, LongType
+#from xmlrpc.server import Marshaller
+#from types import IntType, LongType
 
-from LogUtils import *
+from mom.LogUtils import *
 
 def big_int_marshaller(m, value, writer):
     if value >= 2**31 or value <= -2**31:
@@ -35,8 +35,8 @@ def enable_i8():
     Enable i8 extension
     Python 2.7 knows how to read it, but sending needs to be configured
     """
-    Marshaller.dispatch[IntType] = big_int_marshaller
-    Marshaller.dispatch[LongType] = big_int_marshaller
+    #Marshaller.dispatch[IntType] = big_int_marshaller
+    #Marshaller.dispatch[LongType] = big_int_marshaller
 
 class RequestHandler(SimpleXMLRPCRequestHandler):
     rpc_paths = ('/RPC2',)
