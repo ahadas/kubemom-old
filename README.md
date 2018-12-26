@@ -3,7 +3,7 @@ This is a playground for making a python application that, on the one hand, rece
 It is intended for introducing MOM (Memory Overcommitment Manager) application for KubeVirt.  
 
 Build:  
-`docker build -t mom .`
+`sudo docker build -t mom .`
 
 Run:  
-`docker run --network="host" mom`
+`sudo docker run --network="host" mom`
