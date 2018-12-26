@@ -1,6 +1,6 @@
 FROM python:3
 ADD momd /
-ADD mom /
+ADD mom /mom
 ADD script.py /
 ADD .kubeconfig /root/.kube/config
 RUN pip install kubernetes
