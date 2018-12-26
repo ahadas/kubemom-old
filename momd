@@ -25,7 +25,7 @@ from optparse import OptionParser
 import configparser
 import logging
 import logging.handlers
-import mom
+from mom import MOM
 
 mom_instance = None
 
@@ -127,10 +127,10 @@ def main():
     signal.signal(signal.SIGINT, signal_quit)
     signal.signal(signal.SIGTERM, signal_quit)
 
-    mom_instance = mom.MOM(options.config_file, config_overrides)
+    mom_instance = MOM(options.config_file, config_overrides)
     mom_instance.run()
     sys.exit(0)
 
 if __name__ == "__main__":
-    mom.enable_i8()
+    #mom.enable_i8()
     main()

@@ -41,9 +41,9 @@ AC_ARG_ENABLE(
 
 AC_PROG_INSTALL
 
-AM_PATH_PYTHON([2.6],,[AC_MSG_ERROR([Cannot find python])])
+AM_PATH_PYTHON([3.6],,[AC_MSG_ERROR([Cannot find python])])
 case "${PYTHON_VERSION}" in
-	2.*);;
+	3.*);;
 	*) AC_MSG_ERROR([python 2.6 is required])
 esac
 
