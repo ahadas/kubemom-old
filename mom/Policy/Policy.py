@@ -16,9 +16,9 @@
 
 import logging
 import threading
-from Parser import Evaluator
-from Parser import get_code
-from Parser import PolicyError
+from mom.Policy.Parser import Evaluator
+from mom.Policy.Parser import get_code
+from mom.Policy.Parser import PolicyError
 
 DEFAULT_POLICY_NAME = "50_main_"
 
@@ -62,7 +62,7 @@ class Policy:
                 self.policy_strings[name] = policyStr
             try:
                 self.code = get_code(Evaluator(), self._cat_policies())
-            except PolicyError, e:
+            except (PolicyError, e):
                 self.logger.warn("Unable to load policy: %s" % e)
                 if oldStr is None:
                     del self.policy_strings[name]

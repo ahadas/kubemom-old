@@ -17,7 +17,7 @@
 
 import socket
 import signal
-import ConfigParser
+import configparser
 import logging
 from mom.Collectors.GuestNetworkDaemon import _Server
 from mom.Collectors.Collector import *
@@ -64,7 +64,7 @@ def main():
     signal.signal(signal.SIGINT, signal_quit)
     signal.signal(signal.SIGTERM, signal_quit)
 
-    config = ConfigParser.ConfigParser()
+    config = configparser.ConfigParser()
     config.add_section('main')
     config.set('main', 'host', '')
     config.set('main', 'port', '2187')  

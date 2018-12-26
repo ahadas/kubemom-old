@@ -1,19 +1,20 @@
 import os
-import SocketServer
-import SimpleXMLRPCServer
-from xmlrpclib import ServerProxy, Transport
-import httplib
+import socketserver
+from xmlrpc.server import SimpleXMLRPCServer
+from xmlrpc.server import SimpleXMLRPCRequestHandler
+from xmlrpc.server import SimpleXMLRPCDispatcher
+from xmlrpc.client import ServerProxy, Transport
+import http.client
 import socket
 import string
 import base64
 
-class UnixXmlRpcHandler(SimpleXMLRPCServer.SimpleXMLRPCRequestHandler):
+class UnixXmlRpcHandler(SimpleXMLRPCRequestHandler):
     disable_nagle_algorithm = False
 
 # This class implements a XML-RPC server that binds to a UNIX socket. The path
 # to the UNIX socket to create methods must be provided.
-class UnixXmlRpcServer(SocketServer.UnixStreamServer,
-                       SimpleXMLRPCServer.SimpleXMLRPCDispatcher):
+class UnixXmlRpcServer(socketserver.UnixStreamServer):
     address_family = socket.AF_UNIX
     allow_address_reuse = True
 
@@ -42,7 +43,7 @@ class UnixXmlRpcTransport(Transport):
     def make_connection(self, host):
         return UnixXmlRpcHttpConnection(host)
 
-class UnixXmlRpcHttpConnection(httplib.HTTPConnection):
+class UnixXmlRpcHttpConnection(http.client.HTTPConnection):
     def connect(self):
         self.sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
         self.sock.connect(base64.b16decode(self.host))

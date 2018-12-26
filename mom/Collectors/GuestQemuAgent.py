@@ -17,7 +17,7 @@
 import sys
 import signal
 import socket
-import ConfigParser
+import configparser
 import logging
 from mom.Collectors.Collector import *
 from mom.Collectors.QemuGuestAgentClient import *

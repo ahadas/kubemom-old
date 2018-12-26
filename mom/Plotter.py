@@ -15,7 +15,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 import time
-import ConfigParser
+import configparser
 import logging
 
 class Plotter:
@@ -26,7 +26,7 @@ class Plotter:
         filename = "%s/%s.dat" % (plot_dir, name)
         try:
             self.file = open(filename, 'a')
-        except IOError, (errno, str):
+        except (IOError, (errno, str)):
             logger = logging.getLogger('mom.Plotter')
             logger.warn("Cannot open plot file %s: %s" , filename, str)
 

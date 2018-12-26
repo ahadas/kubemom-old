@@ -18,7 +18,7 @@ import sys
 import signal
 import socket
 from subprocess import *
-import ConfigParser
+import configparser
 import logging
 from mom.Collectors.Collector import *
 from mom.Collectors.HostMemory import HostMemory

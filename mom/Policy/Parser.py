@@ -16,7 +16,7 @@
 import logging
 
 import re
-from spark import GenericScanner, GenericParser
+from mom.Policy.spark import GenericScanner, GenericParser
 
 class PolicyError(Exception): pass
 
@@ -272,7 +272,7 @@ class GenericEvaluator(object):
 
         node = code[0]
         if not isinstance(node, Token):
-            print code
+            print (code)
             raise PolicyError('Expected simple token as arg 1')
 
         if node.kind == 'symbol':
@@ -546,13 +546,13 @@ def eval(e, string):
 
 def repl(e):
     while True:
-        print '>>>',
+        print ('>>>',)
         try:
             string = raw_input()
         except EOFError:
             break
 
-        print eval(e, string)[0]
+        print (eval(e, string)[0])
 
 if __name__ == '__main__':
     import sys
@@ -567,6 +567,6 @@ if __name__ == '__main__':
             f.close()
         results = eval(e, lines)
         for result in results:
-            print result
+            print (result)
     else:
         repl(e)

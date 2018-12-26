@@ -62,7 +62,7 @@ class GenericScanner:
 		return string.join(rv, '|')
 
 	def error(self, s, pos):
-		print "Lexical error at position %s" % pos
+		print ("Lexical error at position %s" % pos)
 		raise SystemExit
 
 	def tokenize(self, s):
@@ -184,7 +184,7 @@ class GenericParser:
 		return None
 
 	def error(self, token):
-		print "Syntax error at or near `%s' token" % token
+		print ("Syntax error at or near `%s' token" % token)
 		raise SystemExit
 
 	def parse(self, tokens):
@@ -393,7 +393,7 @@ class GenericParser:
 			sortlist.append((len(rhs), name))
 			name2index[name] = i
 		sortlist.sort()
-		list = map(lambda (a,b): b, sortlist)
+		list = map(lambda a,b: b, sortlist)
 		return children[name2index[self.resolve(list)]]
 
 	def resolve(self, list):
@@ -558,14 +558,14 @@ class GenericASTMatcher(GenericParser):
 
 def _dump(tokens, states):
 	for i in range(len(states)):
-		print 'state', i
+		print ('state', i)
 		for (lhs, rhs), pos, parent in states[i]:
-			print '\t', lhs, '::=',
-			print string.join(rhs[:pos]),
-			print '.',
-			print string.join(rhs[pos:]),
-			print ',', parent
+			print ('\t', lhs, '::=',)
+			print (string.join(rhs[:pos]),)
+			print ('.',)
+			print (string.join(rhs[pos:]),)
+			print (',', parent)
 		if i < len(tokens):
 			print
-			print 'token', str(tokens[i])
+			print ('token', str(tokens[i]))
 			print
