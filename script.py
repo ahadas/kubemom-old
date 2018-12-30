@@ -5,12 +5,18 @@ from kubernetes import client, config
 # Configs can be set in Configuration class directly or using helper utility
 config.load_kube_config()
 
+def get_vmi(owner_references):
+    for owner_reference in owner_references:
+        if owner_reference.controller:
+            return owner_reference
+    return None
+
 print ('querying..')
 v1 = client.CoreV1Api()
-print("Listing pods with their IPs:")
+print("Listing pods and their respective VMIs:")
 ret = v1.list_namespaced_pod('default', watch=False, label_selector='kubevirt.io=virt-launcher', field_selector='spec.nodeName=node02')
 for i in ret.items:
-    print("%s\t%s\t%s" % (i.status.pod_ip, i.metadata.namespace, i.metadata.name))
+    print("%s\t-> %s" % (i.metadata.name, get_vmi(i.metadata.owner_references).name))
 
 #print ('connecting...')
 #metrics = requests.get("http://127.0.0.1:9101/metrics").text
