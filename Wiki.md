@@ -42,4 +42,4 @@ Therefore, we can leverage the existing MOM project and starting with extending/
 - Introduce other controllers that used to interact with VDSM
   - For: ballooning, IO-tune, CPU-tune
 - Introduce a DSL or a yaml-based language for policy definition
-- Introduce a way to designate MOM with special instructions or altering the logic according to the context, e.g., VM states.
+- Introduce a way to designate MOM with special instructions or to alter the logic according to the context, e.g., VM states.
