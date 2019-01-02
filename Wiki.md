@@ -28,3 +28,15 @@ Among the second group are the following requirements:
 - Enabling to adjust policies according to VM-lifecycle events (e.g., configuring the policy differently when VM boots compared to when the guest operating system is already up).
 
 ## Approach
+There appears to be no good reason for changing the architecture nor for changing the programming language (python) of the existing implementation of MOM in oVirt. Furthermore, the suggested improvements to the existing MOM project seem of a lower-priority. On the other hand, the ability to consume the required data and post the needed actions in a KubeVirt environment seem to be good things to start with.
+
+Therefore, we can leverage the existing MOM project and starting with extending/replacing the collectors (that retrieve data) and controllers (that post actions). This will enable us to measure the effect of a version of MOM that is similar to the existing one in a KubeVirt environment.
+
+## Roadmap
+- Containerize MOM
+- Introduce a collector that retrieves host-level data from Node-Exporter
+  - This may require changes in Node-Exporter
+  - This may require additional information (e.g., pid for a VMI to be able to correlate retrieved data with virtual machines, guest-level memory data)
+- Introduce a collector that retrieves guest-level data from KubeVirt
+- Introduce a controller that updates KSM configuration
+- Introduce a controller that updates VM ballooning
