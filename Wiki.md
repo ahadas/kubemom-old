@@ -38,5 +38,8 @@ Therefore, we can leverage the existing MOM project and starting with extending/
   - This may require changes in Node-Exporter
   - This may require additional information (e.g., pid for a VMI to be able to correlate retrieved data with virtual machines, guest-level memory data)
 - Introduce a collector that retrieves guest-level data from KubeVirt
-- Introduce a controller that updates KSM configuration
-- Introduce a controller that updates VM ballooning
+- Introduce a controller that updates host-level KSM configuration
+- Introduce other controllers that used to interact with VDSM
+  - For: ballooning, IO-tune, CPU-tune
+- Introduce a DSL or a yaml-based language for policy definition
+- Introduce a way to designate MOM with special instructions or altering the logic according to the context, e.g., VM states.
