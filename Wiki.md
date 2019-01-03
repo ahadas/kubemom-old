@@ -43,4 +43,4 @@ Therefore, we can leverage the existing MOM project and start with extending/rep
   - For: ballooning, IO-tune, CPU-tune
   - To enable operations through libvirt it is handy to propagate the identifier of the VMI to the domain ([PR](https://github.com/kubevirt/kubevirt/pull/1883))
 - Introduce a DSL or a yaml-based language for policy definition
-- Introduce a way to designate MOM with special instructions or to alter the logic according to the context, e.g., VM states
+- Introduce a way to designate MOM with special instructions or to alter the policies logic according to an environment status, e.g., VM states
