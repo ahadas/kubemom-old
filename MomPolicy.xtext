@@ -1,0 +1,39 @@
+grammar kubevirt.io.MomPolicy with org.eclipse.xtext.xbase.Xbase
+
+generate momPolicy "http://www.io.kubevirt/MomPolicy"
+
+
+import "http://www.eclipse.org/xtext/common/JavaVMTypes" as types
+
+Model:
+	'scope:' scope=ScopeType
+	("conditions:" (conditions+=Condition)*)?
+	("rules:" rules+=Rule*)?
+;
+
+Condition:
+	name=ID (any=Any | all=All | min=Min | max=Max)
+;
+
+Rule:
+	name=ID "output:" output=XExpression (("min:" min=XNumberLiteral) | ("max:" max=XNumberLiteral)) "target:" target=XExpression "function:"  func=Function "when:" (not?="not")? (when=Condition | when=XExpression)
+;
+
+Function: 
+	{Function} "constant" | ("linear" LinearFunction) | ("exponential" ExponentialFunction)
+;
+
+LinearFunction:
+	"change:" change=XExpression "time:" time=XExpression
+;
+
+ExponentialFunction:
+	"factor:" factor=XExpression "time:" time=XExpression
+;
+
+Any: {Any} "any:" ("-" exprs+=XExpression)*;
+All: {All} "all:" ("-" exprs+=XExpression)*;
+Min: {Min} "min:" ("-" exprs+=XExpression)*;
+Max: {Max} "max:" ("-" exprs+=XExpression)*;
+
+enum ScopeType: VM | Host;
