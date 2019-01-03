@@ -1,6 +1,6 @@
 # KubeMom
 
-MOM ([Memory Overcommitment Manager](https://www.ovirt.org/develop/projects/mom.html)) is a component in a virtual environment that applies pre-defined policies that adjust KSM, ballooning, [and optionally other resource management feature](https://www.ibm.com/developerworks/library/l-overcommit-kvm-resources/) to facilitate memory-overcommitment in the nodes that Virtual Machines run on.
+MOM ([Memory Overcommitment Manager](https://www.ovirt.org/develop/projects/mom.html)) is a component in a virtual environment that applies pre-defined policies that adjust KSM, ballooning, [and optionally other resource management features](https://www.ibm.com/developerworks/library/l-overcommit-kvm-resources/) to facilitate memory-overcommitment in the nodes that Virtual Machines run on.
 
 This project is about implementing MOM as an optional controller in a Kubernetes cluster that would do the same for enabling memory-overcommitment in [KubeVirt](https://kubevirt.io/) nodes, i.e., nodes that run KVM virtual machines within Kubernetes Pods.
 
@@ -19,18 +19,18 @@ The requirements for KubeMom can be split to two groups: (1) Things that come fr
 Among the first group are the following requirements:
 - Containerizing the MOM application.
 - Retrieving node-level data via [Node-Exporter](https://github.com/prometheus/node_exporter/blob/master/README.md).
-- Retrieving guest(VM)-level data from KubeVirt (See this [trello card](https://trello.com/c/izETePlZ/79-8epic-detailed-monitoring-expose-vm-internal-metrics-initiative-perfscale-baseline)).
+- Retrieving guest(VM)-level data via KubeVirt (See this [trello card](https://trello.com/c/izETePlZ/79-8epic-detailed-monitoring-expose-vm-internal-metrics-initiative-perfscale-baseline)).
 - Sending actions to the node-level KSM.
-- Sending actions to the guest-level ballooning.
+- Sending guest-level actions.
 
 Among the second group are the following requirements:
 - Replacing the lisp-like scripting language for policy definition with [a more declarative language](https://ovirt.org/develop/release-management/features/sla/mom-declarative-language.html).
-- Enabling to adjust policies according to VM-lifecycle events (e.g., configuring the policy differently when VM boots compared to when the guest operating system is already up).
+- Enabling policy adjustments according to VM-lifecycle events (e.g., configuring the policy differently when VM boots compared to when the guest operating system is already up).
 
 ## Approach
-There appears to be no good reason for changing the architecture nor for changing the programming language (python) of the existing implementation of MOM in oVirt. Furthermore, the suggested improvements to the existing MOM project seem of a lower-priority. On the other hand, the ability to consume the required data and post the needed actions in a KubeVirt environment seem to be good things to start with.
+There appears to be no good reason for changing the architecture nor for changing the programming language (python) of the existing implementation of MOM in oVirt. Furthermore, the suggested improvements to the existing MOM project can be a second-phase step. On the other hand, the ability to consume the required data and post the needed actions in a KubeVirt environment seem to be good things to start with.
 
-Therefore, we can leverage the existing MOM project and starting with extending/replacing the collectors (that retrieve data) and controllers (that post actions). This will enable us to measure the effect of a version of MOM that is similar to the existing one in a KubeVirt environment.
+Therefore, we can leverage the existing MOM project and start with extending/replacing the collectors (that retrieve data) and controllers (that post actions). This will enable us to inspect the effect of a version of MOM that is similar to the existing one in a KubeVirt environment.
 
 ## Roadmap
 - Containerize MOM
@@ -41,5 +41,6 @@ Therefore, we can leverage the existing MOM project and starting with extending/
 - Introduce a controller that updates host-level KSM configuration
 - Introduce other controllers that used to interact with VDSM
   - For: ballooning, IO-tune, CPU-tune
+  - To enable operation through libvirt it is handy to propagate the identifier of the VMI to the domain ([PR](https://github.com/kubevirt/kubevirt/pull/1883))
 - Introduce a DSL or a yaml-based language for policy definition
-- Introduce a way to designate MOM with special instructions or to alter the logic according to the context, e.g., VM states.
+- Introduce a way to designate MOM with special instructions or to alter the logic according to the context, e.g., VM states
