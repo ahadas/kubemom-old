@@ -41,6 +41,6 @@ Therefore, we can leverage the existing MOM project and start with extending/rep
 - Introduce a controller that updates host-level KSM configuration
 - Introduce other controllers that used to interact with VDSM
   - For: ballooning, IO-tune, CPU-tune
-  - To enable operation through libvirt it is handy to propagate the identifier of the VMI to the domain ([PR](https://github.com/kubevirt/kubevirt/pull/1883))
+  - To enable operations through libvirt it is handy to propagate the identifier of the VMI to the domain ([PR](https://github.com/kubevirt/kubevirt/pull/1883))
 - Introduce a DSL or a yaml-based language for policy definition
 - Introduce a way to designate MOM with special instructions or to alter the logic according to the context, e.g., VM states
