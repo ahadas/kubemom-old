@@ -14,7 +14,7 @@ MOM is comprised of three main layers:
 - System management: this layer applies predefined policies that convert data that is retrieved by the two aforementioned layers into actions that are sent to the appropriate resource management entities.
 
 ## Challenges
-The requirements for KubeMom can be split to two groups: (1) Things that come from its implementation as an extension to KubeVirt; and (2) Improvements to the existing MOM project that was implemented to [oVirt](https://ovirt.org/).
+The requirements for KubeMom can be split to two groups: (1) Things that come from its implementation as an extension to KubeVirt; and (2) Improvements to the existing MOM project that was implemented for [oVirt](https://ovirt.org/).
 
 Among the first group are the following requirements:
 - Containerizing the MOM application.
