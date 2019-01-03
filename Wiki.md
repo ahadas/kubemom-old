@@ -19,7 +19,7 @@ The requirements for KubeMom can be split to two groups: (1) Things that come fr
 Among the first group are the following requirements:
 - Containerizing the MOM application.
 - Retrieving node-level data via [Node-Exporter](https://github.com/prometheus/node_exporter/blob/master/README.md).
-- Retrieving guest(VM)-level data via KubeVirt (See this [trello card](https://trello.com/c/izETePlZ/79-8epic-detailed-monitoring-expose-vm-internal-metrics-initiative-perfscale-baseline)).
+- Retrieving guest(VM)-level data via KubeVirt (See [PR](https://github.com/kubevirt/kubevirt/pull/1840)).
 - Sending actions to the node-level KSM.
 - Sending guest-level actions.
 
