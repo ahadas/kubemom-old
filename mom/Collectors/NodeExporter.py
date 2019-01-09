@@ -31,12 +31,13 @@ class NodeExporter(Collector):
         anon_pages    - The amount of memory used for anonymous memory areas (kB)
     """
     def __init__(self, properties):
-        self._logger = logging.getLogger('mom.kubevirtInterface')
+        self._logger = logging.getLogger('mom.NodeExporter')
+        self._logger.info('initialized')
         self.swap_in_prev = None
         self.swap_in_cur = None
         self.swap_out_prev = None
         self.swap_out_cur = None
-        meminfo_fields = [
+        self.meminfo_fields = [
             'node_memory_MemTotal_bytes',
             'node_memory_AnonPages_bytes',
             'node_memory_MemFree_bytes',
@@ -45,7 +46,7 @@ class NodeExporter(Collector):
             'node_memory_SwapTotal_bytes',
             'node_memory_SwapFree_bytes',
         ]
-        vmstat_fields = {
+        self.vmstat_fields = {
             'node_vmstat_pswpin',
             'node_vmstat_pswpout',
         }
@@ -59,12 +60,12 @@ class NodeExporter(Collector):
         for family in text_string_to_metric_families(text_string):
             if family.name in self.meminfo_fields:
                 label = family.name
-                metrics[label] = parse_int(family.samples[0].value) / 1024
+                metrics[label] = int(family.samples[0].value) / 1024
                 continue
 
-            if familty.name in self.vmstat_fields:
+            if family.name in self.vmstat_fields:
                 label = family.name
-                metrics[label] = parse_int(family.samples[0].value)
+                metrics[label] = int(family.samples[0].value)
                 continue
         
         # /proc/vmstat reports cumulative statistics so we must subtract the
@@ -87,7 +88,7 @@ class NodeExporter(Collector):
             metrics['node_memory_Buffers_bytes'] + \
             metrics['node_memory_Cached_bytes']
 
-        date = {
+        data = {
             'mem_available': metrics['node_memory_MemTotal_bytes'],
             'mem_unused':    metrics['node_memory_MemFree_bytes'],
             'mem_free':      free,
