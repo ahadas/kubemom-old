@@ -9,7 +9,7 @@ class kubevirtInterface(HypervisorInterface):
         self._logger = logging.getLogger('mom.kubevirtInterface')
         self.v1 = client.CoreV1Api()
 
-    def get_vmi(owner_references):
+    def get_vmi(self, owner_references):
         for owner_reference in owner_references:
             if owner_reference.controller:
                 return owner_reference
@@ -25,7 +25,7 @@ class kubevirtInterface(HypervisorInterface):
                                           field_selector=node)
         vmIds = []
         for pod in ret.items:
-            vmi = get_vmi(pod.metadata.owner_references)
+            vmi = self.get_vmi(pod.metadata.owner_references)
             vmIds.append(vmi.uid)
             #print("%s\t%s\t%s" % (i.status.pod_ip, i.metadata.namespace, i.metadata.name))
         self._logger.info('VM List: %s', vmIds)
