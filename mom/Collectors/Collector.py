@@ -94,7 +94,7 @@ def get_collectors(config_str, properties, global_config):
         except ImportError:
             logger.warn("Unable to import collector: %s", name)
             return None
-        except (FatalError, e):
+        except FatalError as e:
             logger.error("Fatal Collector error: %s", e.msg)
             return None
     return collectors

@@ -37,8 +37,8 @@ class KSM:
         try:
             with open(fname, 'w') as f:
                 f.write(str(value))
-        except IOError, (errno, strerror):
-            self.logger.warn("KSM: Failed to write %s: %s", fname, strerror)
+        except IOError as err:
+            self.logger.warn("KSM: Failed to write %s: %s", fname, err.strerror)
 
     def process(self, host, guests):
         outputs = {}
