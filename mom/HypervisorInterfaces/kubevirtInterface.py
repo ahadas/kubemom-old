@@ -24,12 +24,21 @@ class kubevirtInterface(HypervisorInterface):
                                           label_selector=virt_launcher_label,
                                           field_selector=node)
         vmIds = []
+        self.mapping = {}
         for pod in ret.items:
             vmi = self.get_vmi(pod.metadata.owner_references)
+            self.mapping[vmi.uid] = vmi.name
             vmIds.append(vmi.uid)
             #print("%s\t%s\t%s" % (i.status.pod_ip, i.metadata.namespace, i.metadata.name))
         self._logger.info('VM List: %s', vmIds)
         return vmIds
+
+    def getVmInfo(self, id):
+        data = {}
+        # pid is missing
+        data['uuid'] = id
+        data['name'] = self.mapping[id]
+        return data
 
 def instance(config):
     return kubevirtInterface(config)
