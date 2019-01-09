@@ -9,6 +9,12 @@ class kubevirtInterface(HypervisorInterface):
         self._logger = logging.getLogger('mom.kubevirtInterface')
         self.v1 = client.CoreV1Api()
 
+    def get_vmi(owner_references):
+        for owner_reference in owner_references:
+            if owner_reference.controller:
+                return owner_reference
+        return None
+
     def getVmList(self):
         print("Listing pods with their IPs:")
         virt_launcher_label = 'kubevirt.io=virt-launcher'
@@ -24,12 +30,6 @@ class kubevirtInterface(HypervisorInterface):
             #print("%s\t%s\t%s" % (i.status.pod_ip, i.metadata.namespace, i.metadata.name))
         self._logger.info('VM List: %s', vmIds)
         return vmIds
-
-    def get_vmi(owner_references):
-        for owner_reference in owner_references:
-            if owner_reference.controller:
-                return owner_reference
-        return None
 
 def instance(config):
     return kubevirtInterface(config)
