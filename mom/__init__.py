@@ -83,7 +83,7 @@ class MOM:
         self.config.set('main', 'main-loop-interval', '5')
         self.config.set('main', 'host-monitor-interval', '5')
         self.config.set('main', 'guest-manager-interval', '5')
-        self.config.set('main', 'hypervisor-interface', 'kubevirt')
+        self.config.set('main', 'hypervisor-interface', 'libvirt')
         self.config.set('main', 'guest-monitor-interval', '5')
         self.config.set('main', 'policy-engine-interval', '10')
         self.config.set('main', 'sample-history-length', '10')
