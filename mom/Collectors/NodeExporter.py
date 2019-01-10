@@ -50,13 +50,14 @@ class NodeExporter(Collector):
             'node_vmstat_pswpin',
             'node_vmstat_pswpout',
         }
+        self.node_cpu_family = 'node_cpu_seconds'
 
     def __del__(self):
         pass
 
     def collect(self):
         text_string = requests.get("http://127.0.0.1:9101/metrics").text
-        metrics = {}
+        metrics = { 'cpu_count': 0 }
         for family in text_string_to_metric_families(text_string):
             if family.name in self.meminfo_fields:
                 label = family.name
@@ -66,6 +67,12 @@ class NodeExporter(Collector):
             if family.name in self.vmstat_fields:
                 label = family.name
                 metrics[label] = int(family.samples[0].value)
+                continue
+
+            if family.name == self.node_cpu_family:
+                for sample in family.samples:
+                    if sample.labels['mode'] == 'system':
+                        metrics['cpu_count'] += 1
                 continue
         
         # /proc/vmstat reports cumulative statistics so we must subtract the
@@ -96,7 +103,8 @@ class NodeExporter(Collector):
             'swap_out':      swap_out,
             'anon_pages':    metrics['node_memory_AnonPages_bytes'],
             'swap_total':    metrics['node_memory_SwapTotal_bytes'],
-            'swap_usage':    swap_usage
+            'swap_usage':    swap_usage,
+            'cpu_count':     cpu_count,
         }
 
         self._logger.info(data)
@@ -104,4 +112,5 @@ class NodeExporter(Collector):
 
     def getFields(self=None):
         return set(['mem_available', 'mem_unused', 'mem_free', 'swap_in', \
-                   'swap_out', 'anon_pages', 'swap_total', 'swap_usage'])
+                    'swap_out', 'anon_pages', 'swap_total', 'swap_usage', \
+                    'cpu_count'])
