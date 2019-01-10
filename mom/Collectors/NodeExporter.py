@@ -57,7 +57,7 @@ class NodeExporter(Collector):
 
     def collect(self):
         text_string = requests.get("http://127.0.0.1:9101/metrics").text
-        metrics = { 'cpu_count': 0 }
+        metrics = {}
         for family in text_string_to_metric_families(text_string):
             if family.name in self.meminfo_fields:
                 label = family.name
@@ -70,9 +70,11 @@ class NodeExporter(Collector):
                 continue
 
             if family.name == self.node_cpu_family:
+                cpu_count = 0
                 for sample in family.samples:
                     if sample.labels['mode'] == 'system':
-                        metrics['cpu_count'] += 1
+                        cpu_count += 1
+                metrics['cpu_count'] = cpu_count
                 continue
         
         # /proc/vmstat reports cumulative statistics so we must subtract the
@@ -104,7 +106,7 @@ class NodeExporter(Collector):
             'anon_pages':    metrics['node_memory_AnonPages_bytes'],
             'swap_total':    metrics['node_memory_SwapTotal_bytes'],
             'swap_usage':    swap_usage,
-            'cpu_count':     cpu_count,
+            'cpu_count':     metrics['cpu_count'],
         }
 
         self._logger.info(data)
