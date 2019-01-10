@@ -19,26 +19,26 @@ from prometheus_client.parser import text_string_to_metric_families
 import requests
 import logging
 
+meminfo_fields = (
+    'node_memory_MemTotal_bytes',
+    'node_memory_AnonPages_bytes',
+    'node_memory_MemFree_bytes',
+    'node_memory_Buffers_bytes',
+    'node_memory_Cached_bytes',
+    'node_memory_SwapTotal_bytes',
+    'node_memory_SwapFree_bytes',
+)
+vmstat_fields = (
+    'node_vmstat_pswpin',
+    'node_vmstat_pswpout',
+)
+node_cpu_family = 'node_cpu_seconds'
+
 class NodeExporter(Collector):
     """
     This Collctor returns host-level statistics retrieved from Node Exporter via
     a prometheus endpoint.
     """
-    meminfo_fields = [
-        'node_memory_MemTotal_bytes',
-        'node_memory_AnonPages_bytes',
-        'node_memory_MemFree_bytes',
-        'node_memory_Buffers_bytes',
-        'node_memory_Cached_bytes',
-        'node_memory_SwapTotal_bytes',
-        'node_memory_SwapFree_bytes',
-    ]
-    vmstat_fields = {
-        'node_vmstat_pswpin',
-        'node_vmstat_pswpout',
-    }
-    node_cpu_family = 'node_cpu_seconds'
-
     def __init__(self, properties):
         self._logger = logging.getLogger('mom.NodeExporter')
         self.swap_in_prev = None
