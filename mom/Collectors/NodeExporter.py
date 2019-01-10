@@ -21,36 +21,30 @@ import logging
 
 class NodeExporter(Collector):
     """
-    This Collctor returns memory statistics about the host by Node Exporter via
-    a prometheus endpoint.  The fields provided are:
-        mem_available - The total amount of available memory (kB)
-        mem_unused    - The amount of memory that is not being used for any purpose (kB)
-        mem_free      - The amount of free memory including some caches (kB)
-        swap_in       - The amount of memory swapped in since the last collection (pages)
-        swap_out      - The amount of memory swapped out since the last collection (pages)
-        anon_pages    - The amount of memory used for anonymous memory areas (kB)
+    This Collctor returns host-level statistics retrieved from Node Exporter via
+    a prometheus endpoint.
     """
+    meminfo_fields = [
+        'node_memory_MemTotal_bytes',
+        'node_memory_AnonPages_bytes',
+        'node_memory_MemFree_bytes',
+        'node_memory_Buffers_bytes',
+        'node_memory_Cached_bytes',
+        'node_memory_SwapTotal_bytes',
+        'node_memory_SwapFree_bytes',
+    ]
+    vmstat_fields = {
+        'node_vmstat_pswpin',
+        'node_vmstat_pswpout',
+    }
+    node_cpu_family = 'node_cpu_seconds'
+
     def __init__(self, properties):
         self._logger = logging.getLogger('mom.NodeExporter')
-        self._logger.info('initialized')
         self.swap_in_prev = None
         self.swap_in_cur = None
         self.swap_out_prev = None
         self.swap_out_cur = None
-        self.meminfo_fields = [
-            'node_memory_MemTotal_bytes',
-            'node_memory_AnonPages_bytes',
-            'node_memory_MemFree_bytes',
-            'node_memory_Buffers_bytes',
-            'node_memory_Cached_bytes',
-            'node_memory_SwapTotal_bytes',
-            'node_memory_SwapFree_bytes',
-        ]
-        self.vmstat_fields = {
-            'node_vmstat_pswpin',
-            'node_vmstat_pswpout',
-        }
-        self.node_cpu_family = 'node_cpu_seconds'
 
     def __del__(self):
         pass
@@ -59,17 +53,17 @@ class NodeExporter(Collector):
         text_string = requests.get("http://127.0.0.1:9101/metrics").text
         metrics = {}
         for family in text_string_to_metric_families(text_string):
-            if family.name in self.meminfo_fields:
+            if family.name in meminfo_fields:
                 label = family.name
                 metrics[label] = int(family.samples[0].value) / 1024
                 continue
 
-            if family.name in self.vmstat_fields:
+            if family.name in vmstat_fields:
                 label = family.name
                 metrics[label] = int(family.samples[0].value)
                 continue
 
-            if family.name == self.node_cpu_family:
+            if family.name == node_cpu_family:
                 cpu_count = 0
                 for sample in family.samples:
                     if sample.labels['mode'] == 'system':
