@@ -79,7 +79,7 @@ backup-count: 5
 
 [host]
 # A comma-separated list of Collector plugins to use for Host data collection.
-collectors: NodeExporter, HostMemory, HostKSM, HostCpu
+collectors: NodeExporter, HostKSM
 
 [guest]
 # A comma-separated list of Collector plugins to use for Guest data collection.
