@@ -44,3 +44,10 @@ Therefore, we can leverage the existing MOM project and start with extending/rep
   - To enable operations through libvirt it is handy to propagate the identifier of the VMI to the domain ([PR](https://github.com/kubevirt/kubevirt/pull/1883))
 - Introduce a DSL or a yaml-based language for policy definition
 - Introduce a way to designate MOM with special instructions or to alter the policies logic according to an environment status, e.g., VM states
+
+## Status
+- Some of the core of mom seems to work properly as a container: the part that retrieve data from the collectors.
+- The host-level data, except of KSM, is retrieved successfully from Node-Exporter.
+- Retrieving guest-level data from virt-handler is a work in progress.
+- TODO: adjust openshift-monitoring to enable KSM.
+
