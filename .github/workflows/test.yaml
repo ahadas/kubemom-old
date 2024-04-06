@@ -1,0 +1,16 @@
+name: Tests
+
+on: [pull_request, workflow_dispatch]
+
+jobs:
+  unit-tests:
+
+    runs-on: macos-14
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - run: osascript -s o "count {1, 2}"
