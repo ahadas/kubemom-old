@@ -8,4 +8,5 @@ jobs:
     runs-on: macos-14
 
     steps:
-      - run: osascript -e "count {1, 2}"
+      - uses: actions/checkout@v4
+      - run: osascript -s o arik 
